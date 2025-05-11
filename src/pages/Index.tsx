@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { book, star, users } from "lucide-react";
+import { Book, Star, Users } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
@@ -51,7 +51,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-card p-6 rounded-lg shadow-sm">
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <book className="w-6 h-6 text-primary" />
+                <Book className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-serif text-xl font-medium mb-2">Personal Bookshelf</h3>
               <p className="text-muted-foreground">
@@ -60,7 +60,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-6 rounded-lg shadow-sm">
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <star className="w-6 h-6 text-primary" />
+                <Star className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-serif text-xl font-medium mb-2">Share Reviews</h3>
               <p className="text-muted-foreground">
@@ -69,7 +69,7 @@ const Index = () => {
             </div>
             <div className="bg-card p-6 rounded-lg shadow-sm">
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <users className="w-6 h-6 text-primary" />
+                <Users className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-serif text-xl font-medium mb-2">Discover Books</h3>
               <p className="text-muted-foreground">

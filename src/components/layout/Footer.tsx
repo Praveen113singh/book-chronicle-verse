@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { book } from "lucide-react";
+import { Book } from "lucide-react";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
             <Link to="/" className="flex items-center">
-              <book className="h-5 w-5 text-primary mr-2" />
+              <Book className="h-5 w-5 text-primary mr-2" />
               <span className="font-serif text-lg font-bold">BookBurst</span>
             </Link>
             <p className="text-sm text-muted-foreground mt-2">

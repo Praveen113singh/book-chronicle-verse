@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { book } from "lucide-react";
+import { Book } from "lucide-react";
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
     }`}>
       <div className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <book className="h-6 w-6 text-primary mr-2" />
+          <Book className="h-6 w-6 text-primary mr-2" />
           <span className="font-serif text-xl font-bold">BookBurst</span>
         </Link>
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Dialog, 
@@ -21,7 +20,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
 // Mock search results from Google Books API
@@ -181,7 +180,7 @@ const AddBookForm: React.FC = () => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button className="gap-2">
-          <plus className="h-4 w-4" />
+          <Plus className="h-4 w-4" />
           Add Book
         </Button>
       </DialogTrigger>

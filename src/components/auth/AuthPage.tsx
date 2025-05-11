@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import { book } from "lucide-react";
+import { Book } from "lucide-react";
 
 const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,7 +15,7 @@ const AuthPage: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
       <div className="w-full max-w-md mb-8 text-center">
         <div className="inline-flex items-center justify-center mb-4">
-          <book className="h-10 w-10 text-primary" />
+          <Book className="h-10 w-10 text-primary" />
           <h1 className="font-serif text-4xl font-bold ml-2">BookBurst</h1>
         </div>
         <p className="text-muted-foreground">
