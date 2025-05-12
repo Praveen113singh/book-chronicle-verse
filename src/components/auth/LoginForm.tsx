@@ -22,6 +22,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
     
     try {
       await login(email, password);
+      // If login is successful, the AuthContext will redirect to the bookshelf page
     } catch (error) {
       // Error is handled in the auth context
       console.error("Login error:", error);
