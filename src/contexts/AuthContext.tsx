@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       
       // Find user by email
       const foundUser = MOCK_USERS.find(
@@ -71,10 +71,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       setUser(authenticatedUser);
       localStorage.setItem("bookburst_user", JSON.stringify(authenticatedUser));
-      toast.success("Logged in successfully!");
+      toast.success(`Welcome back, ${authenticatedUser.username}!`);
     } catch (error) {
       console.error("Login error:", error);
-      toast.error("Login failed. Please check your credentials.");
+      toast.error(`Login failed: ${(error as Error).message}`);
       throw error;
     } finally {
       setIsLoading(false);
@@ -85,7 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       
       // Check if user exists
       if (MOCK_USERS.some((u) => u.email === email)) {
@@ -107,16 +107,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // In a real app, we would save this to a database
       MOCK_USERS.push(newUser);
       
-      // Create sanitized user object (without password)
-      const authenticatedUser = {
-        id: newUser.id,
-        email: newUser.email,
-        username: newUser.username,
-      };
-      
-      setUser(authenticatedUser);
-      localStorage.setItem("bookburst_user", JSON.stringify(authenticatedUser));
+      // For signup, we don't automatically log in - just return success
       toast.success("Account created successfully!");
+      return;
     } catch (error) {
       console.error("Signup error:", error);
       toast.error(`Signup failed: ${(error as Error).message}`);

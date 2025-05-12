@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
 
 interface LoginFormProps {
   onToggleForm: () => void;
@@ -22,11 +23,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
     
     try {
       await login(email, password);
-      // If login is successful, the AuthContext will redirect to the bookshelf page
+      // Success is handled in the auth context with redirect
     } catch (error) {
-      // Error is handled in the auth context
       console.error("Login error:", error);
-    } finally {
+      toast.error("Login failed. Please check your credentials.");
       setIsSubmitting(false);
     }
   };
