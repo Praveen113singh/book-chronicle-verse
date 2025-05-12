@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import { Book } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const AuthPage: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [activeTab, setActiveTab] = useState("login");
 
-  const toggleForm = () => {
-    setIsLogin(!isLogin);
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
   };
 
   return (
@@ -23,11 +24,18 @@ const AuthPage: React.FC = () => {
         </p>
       </div>
       
-      {isLogin ? (
-        <LoginForm onToggleForm={toggleForm} />
-      ) : (
-        <SignupForm onToggleForm={toggleForm} />
-      )}
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full max-w-md">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="login">Sign In</TabsTrigger>
+          <TabsTrigger value="signup">Sign Up</TabsTrigger>
+        </TabsList>
+        <TabsContent value="login">
+          <LoginForm onToggleForm={() => handleTabChange("signup")} />
+        </TabsContent>
+        <TabsContent value="signup">
+          <SignupForm onToggleForm={() => handleTabChange("login")} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
