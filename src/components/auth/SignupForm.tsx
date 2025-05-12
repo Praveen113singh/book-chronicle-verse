@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
 
 interface SignupFormProps {
   onToggleForm: () => void;
@@ -43,6 +44,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onToggleForm }) => {
     
     try {
       await signup(email, password, username);
+      // After successful signup, show a toast and redirect to login tab
+      toast.success("Account created! Please sign in with your credentials.");
+      // Redirect to login tab
+      onToggleForm();
     } catch (error) {
       // Error is handled in the auth context
       console.error("Signup error:", error);
