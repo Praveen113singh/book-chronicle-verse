@@ -50,15 +50,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
+      // For debugging
+      console.log("Attempting login with:", { email, password });
+      console.log("Available users:", MOCK_USERS);
+      
       // Simulate API call delay
       await new Promise((resolve) => setTimeout(resolve, 500));
       
-      // Find user by email
+      // Find user by email and password - case insensitive email comparison
       const foundUser = MOCK_USERS.find(
-        (u) => u.email === email && u.password === password
+        (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
       );
       
       if (!foundUser) {
+        console.log("No matching user found");
         throw new Error("Invalid email or password");
       }
       
@@ -87,12 +92,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Simulate API call delay
       await new Promise((resolve) => setTimeout(resolve, 500));
       
-      // Check if user exists
-      if (MOCK_USERS.some((u) => u.email === email)) {
+      // Check if user exists - case insensitive email comparison
+      if (MOCK_USERS.some((u) => u.email.toLowerCase() === email.toLowerCase())) {
         throw new Error("User with this email already exists");
       }
       
-      if (MOCK_USERS.some((u) => u.username === username)) {
+      if (MOCK_USERS.some((u) => u.username.toLowerCase() === username.toLowerCase())) {
         throw new Error("Username already taken");
       }
       
