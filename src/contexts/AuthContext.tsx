@@ -1,6 +1,7 @@
 
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: string;
@@ -31,6 +32,7 @@ const MOCK_USERS = [
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check for saved auth in localStorage
@@ -128,7 +130,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
     localStorage.removeItem("bookburst_user");
     toast.info("Logged out successfully");
-    // In a production app, we'd also invalidate tokens, etc.
+    // Navigate to the home page after logout
+    navigate('/');
   };
 
   return (
