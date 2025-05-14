@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBooks } from "@/contexts/BookContext";
@@ -7,11 +7,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import BookGrid from "../books/BookGrid";
 import ReviewList from "../reviews/ReviewList";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Pencil, UserRoundCheck } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 const ProfileView: React.FC = () => {
   const { username } = useParams<{ username: string }>();
-  const { user } = useAuth();
+  const { user, updateUsername } = useAuth();
   const { userBooks, reviews } = useBooks();
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [newUsername, setNewUsername] = useState(username || "");
   
   const isOwnProfile = user && user.username === username;
   
@@ -20,6 +27,30 @@ const ProfileView: React.FC = () => {
   
   // Get user's reviews
   const profileReviews = reviews.filter(review => review.username === username);
+  
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+  
+  const handleSave = () => {
+    if (newUsername && newUsername !== username && newUsername.length >= 3) {
+      updateUsername(newUsername);
+      setIsEditing(false);
+    } else if (newUsername.length < 3) {
+      toast({
+        title: "Invalid username",
+        description: "Username must be at least 3 characters long",
+        variant: "destructive"
+      });
+    } else {
+      setIsEditing(false);
+    }
+  };
+  
+  const handleCancel = () => {
+    setNewUsername(username || "");
+    setIsEditing(false);
+  };
   
   return (
     <div className="max-w-4xl mx-auto">
@@ -30,8 +61,37 @@ const ProfileView: React.FC = () => {
           </AvatarFallback>
         </Avatar>
         
-        <div>
-          <h1 className="font-serif text-3xl font-bold">{username}</h1>
+        <div className="flex-1">
+          {isEditing && isOwnProfile ? (
+            <div className="flex gap-2">
+              <Input 
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                className="max-w-[200px]"
+              />
+              <Button size="sm" onClick={handleSave} className="flex items-center gap-1">
+                <UserRoundCheck className="h-4 w-4" /> Save
+              </Button>
+              <Button size="sm" variant="outline" onClick={handleCancel}>
+                Cancel
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <h1 className="font-serif text-3xl font-bold">{username}</h1>
+              {isOwnProfile && (
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  onClick={handleEdit}
+                  className="h-8 w-8 p-0"
+                >
+                  <Pencil className="h-4 w-4" />
+                  <span className="sr-only">Edit username</span>
+                </Button>
+              )}
+            </div>
+          )}
           <p className="text-muted-foreground">
             {isOwnProfile ? "Your profile" : "Public profile"}
           </p>

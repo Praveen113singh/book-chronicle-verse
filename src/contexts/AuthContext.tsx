@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, username: string) => Promise<void>;
   logout: () => void;
+  updateUsername: (newUsername: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,6 +48,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     setIsLoading(false);
   }, []);
+
+  const updateUsername = (newUsername: string) => {
+    if (!user) return;
+    
+    try {
+      // In a real app, this would make an API call to update the username
+      // For our mock implementation, we'll update the MOCK_USERS array
+      const userIndex = MOCK_USERS.findIndex(u => u.id === user.id);
+      
+      if (userIndex >= 0) {
+        // Check if username is already taken
+        const usernameExists = MOCK_USERS.some(
+          u => u.username.toLowerCase() === newUsername.toLowerCase() && u.id !== user.id
+        );
+        
+        if (usernameExists) {
+          toast.error("Username already taken");
+          return;
+        }
+        
+        // Update the mock database
+        MOCK_USERS[userIndex].username = newUsername;
+        
+        // Update the current user state
+        const updatedUser = { ...user, username: newUsername };
+        setUser(updatedUser);
+        
+        // Update localStorage
+        localStorage.setItem("bookburst_user", JSON.stringify(updatedUser));
+        
+        // Show success message
+        toast.success("Username updated successfully");
+        
+        // Navigate to the new profile URL
+        navigate(`/profile/${newUsername}`);
+      }
+    } catch (error) {
+      console.error("Failed to update username:", error);
+      toast.error("Failed to update username");
+    }
+  };
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
@@ -135,7 +176,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, signup, logout, updateUsername }}>
       {children}
     </AuthContext.Provider>
   );
